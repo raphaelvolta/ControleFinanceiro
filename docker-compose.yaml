@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: demo_database
+      MYSQL_USER: demo_user
+      MYSQL_PASSWORD: demo_pass
+    volumes:
+      - "./src/main/resources/database/data-mass.sql:/docker-entrypoint-initdb.d/data-mass.sql"
