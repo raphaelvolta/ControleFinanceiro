@@ -1,0 +1,125 @@
+{
+	"info": {
+		"_postman_id": "d1f94522-aa85-495b-831a-45d66b8791d4",
+		"name": "Teste_app_demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Tag by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/demo/tags/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"demo",
+						"tags",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Tags",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/demo/tags",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"demo",
+						"tags"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Tag",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"Teste postman5\",\r\n    \"icon\": \"car\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/demo/tags",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"demo",
+						"tags"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Tag",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"Teste postman3\",\r\n    \"icon\": \"car3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/demo/tags/14",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"demo",
+						"tags",
+						"14"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Tag",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/demo/tags/14",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"demo",
+						"tags",
+						"14"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
