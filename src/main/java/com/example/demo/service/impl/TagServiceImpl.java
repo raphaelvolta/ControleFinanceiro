@@ -21,7 +21,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag getTag(Long tagId) {
+    public Tag getTag(Integer tagId) {
         return tagRepository.getById(tagId);
     }
 
@@ -31,15 +31,15 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag putTag(Tag tag, Long id) {
-        tagRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        tag.setId(id);
+    public Tag putTag(Tag tag, Integer tagId) {
+        tagRepository.findById(tagId).orElseThrow(EntityNotFoundException::new);
+        tag.setId(tagId);
         return tagRepository.save(tag);
     }
 
     @Override
-    public void deleteTag(Long id) {
-        Tag tag = tagRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    public void deleteTag(Integer tagId) {
+        Tag tag = tagRepository.findById(tagId).orElseThrow(EntityNotFoundException::new);
         tagRepository.delete(tag);
     }
 }

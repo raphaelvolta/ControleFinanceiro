@@ -1,5 +1,5 @@
 create table tag (
-    id double NOT NULL AUTO_INCREMENT,
+    id int(10) NOT NULL AUTO_INCREMENT,
     description varchar(255),
     icon varchar(255),
     primary key (id)

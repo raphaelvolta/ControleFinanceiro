@@ -22,7 +22,7 @@ public class TagController {
     }
 
     @GetMapping("/{tagId}")
-    public ResponseEntity<Tag> getTagById(@PathVariable("tagId") Long tagId){
+    public ResponseEntity<Tag> getTagById(@PathVariable("tagId") Integer tagId){
         Tag tag = tagService.getTag(tagId);
         return ResponseEntity.ok(tag);
     }
@@ -34,13 +34,13 @@ public class TagController {
 
     @PutMapping("/{tagId}")
     public ResponseEntity<Tag> patchTag(
-            @PathVariable("tagId") Long tagId,
+            @PathVariable("tagId") Integer tagId,
             @RequestBody Tag tag){
         return ResponseEntity.ok(tagService.putTag(tag, tagId));
     }
 
     @DeleteMapping("/{tagId}")
-    public ResponseEntity<Tag> deleteTag(@PathVariable("tagId") Long tagId){
+    public ResponseEntity<Tag> deleteTag(@PathVariable("tagId") Integer tagId){
         tagService.deleteTag(tagId);
         return ResponseEntity.noContent().build();
     }
