@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -46,7 +44,7 @@ public class ExceptionHandlerInterceptor {
                 .builder()
                 .httpCode(httpStatus.value())
                 .description(exceptionMap.get(httpStatus))
-                .detail(e.getMessage())
+                .detail(e.getClass().getSimpleName())
                 .build();
     }
 }
