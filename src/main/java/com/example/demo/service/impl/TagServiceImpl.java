@@ -33,7 +33,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public Tag putTag(Tag tag, Integer tagId) {
         tagRepository.findById(tagId).orElseThrow(EntityNotFoundException::new);
-        tag.setId(tagId);
+        tag.setTagId(tagId);
         return tagRepository.save(tag);
     }
 

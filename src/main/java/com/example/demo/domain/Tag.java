@@ -14,14 +14,14 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "TAG")
+@Table(name = "tag")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Tag implements Serializable {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "tagId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer tagId;
 
     @Column(name = "description")
     private String description;
