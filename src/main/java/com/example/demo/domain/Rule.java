@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -24,9 +25,9 @@ public class Rule {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "filter_id", referencedColumnName = "filter_id")
-    private Filter filter;
+    private List<Filter> filter;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tag_id", referencedColumnName = "tag_id")
-    private Tag tag;
+    private List<Tag> tag;
 }
