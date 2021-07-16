@@ -10,6 +10,6 @@ public interface TagService {
     List<Tag> getTags();
     Tag getTag(Integer tagId);
     Tag postTag(Tag tag);
-    Tag putTag(Tag tag, Integer id);
-    void deleteTag(Integer id);
+    Tag putTag(Tag tag, Integer tagId);
+    void deleteTag(Integer tagId);
 }

@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.Tag;
+import com.example.demo.jsonDto.TagDto;
 import com.example.demo.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,17 +24,16 @@ public class TagController {
 
     @GetMapping("/{tagId}")
     public ResponseEntity<Tag> getTagById(@PathVariable("tagId") Integer tagId){
-        Tag tag = tagService.getTag(tagId);
-        return ResponseEntity.ok(tag);
+        return ResponseEntity.ok(tagService.getTag(tagId));
     }
 
     @PostMapping
-    public ResponseEntity<Tag> postTag(@RequestBody Tag tag){
-        return ResponseEntity.ok(tagService.postTag(tag));
+    public ResponseEntity<Tag> postTag(@RequestBody TagDto tagDto){
+        return ResponseEntity.ok(tagService.postTag(tagDto.toDomain()));
     }
 
     @PutMapping("/{tagId}")
-    public ResponseEntity<Tag> patchTag(
+    public ResponseEntity<Tag> putTag(
             @PathVariable("tagId") Integer tagId,
             @RequestBody Tag tag){
         return ResponseEntity.ok(tagService.putTag(tag, tagId));

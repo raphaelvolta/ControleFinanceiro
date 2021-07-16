@@ -1,5 +1,6 @@
 package com.example.demo.interceptor;
 
+import com.example.demo.exception.EntityAlreadyExistsException;
 import com.example.demo.exception.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,8 +15,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
 @ControllerAdvice
@@ -23,6 +23,7 @@ public class ExceptionHandlerInterceptor {
 
     Map<HttpStatus, String> exceptionMap = Stream.of(new Object[][] {
             { NOT_FOUND, "Entity not found." },
+            { UNPROCESSABLE_ENTITY, "Unprocessable entity" },
             { INTERNAL_SERVER_ERROR, "Server error." }
     }).collect(Collectors.toMap(data -> (HttpStatus) data[0], data -> (String) data[1]));
 
@@ -31,6 +32,12 @@ public class ExceptionHandlerInterceptor {
     public ResponseEntity<JsonError> handleEntityNotFound(EntityNotFoundException e) {
         log.info(e.getClass().getName());
         return new ResponseEntity<>(exceptionBody(NOT_FOUND, e), NOT_FOUND);
+    }
+
+    @ExceptionHandler(EntityAlreadyExistsException.class)
+    public ResponseEntity<JsonError> handleGeneralException(EntityAlreadyExistsException e) {
+        log.info(e.getClass().getName());
+        return new ResponseEntity<>(exceptionBody(UNPROCESSABLE_ENTITY, e), UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler(Exception.class)
@@ -44,6 +51,7 @@ public class ExceptionHandlerInterceptor {
                 .builder()
                 .httpCode(httpStatus.value())
                 .description(exceptionMap.get(httpStatus))
+                .message(e.getMessage())
                 .detail(e.getClass().getSimpleName())
                 .build();
     }
@@ -55,5 +63,6 @@ public class ExceptionHandlerInterceptor {
 class JsonError{
     int httpCode;
     String description;
+    String message;
     String detail;
 }

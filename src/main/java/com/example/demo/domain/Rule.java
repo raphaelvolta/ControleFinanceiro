@@ -7,26 +7,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Data
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tag")
+@Table(name = "rule")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Tag implements Serializable {
+public class Rule {
 
     @Id
-    @Column(name = "tag_id")
+    @Column(name = "rule_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer tagId;
+    private Integer ruleId;
 
-    @Column(name = "description")
-    private String description;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "filter_id", referencedColumnName = "filter_id")
+    private Filter filter;
 
-    @Column(name = "icon")
-    private String icon;
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tag_id", referencedColumnName = "tag_id")
+    private Tag tag;
 }

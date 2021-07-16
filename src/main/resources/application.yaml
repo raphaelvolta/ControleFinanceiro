@@ -13,7 +13,6 @@ spring:
     generate-ddl: true
     show-sql: true
 
-
 #hibernate.ddl-auto:
 #validate: validar o schema, não faz mudanças no banco de dados.
 #update: faz update o schema.

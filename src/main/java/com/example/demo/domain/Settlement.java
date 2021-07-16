@@ -41,6 +41,11 @@ public class Settlement {
     private LocalDateTime dateTime;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "settlement_tag", joinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "settlement_id"))
+    @JoinTable(name = "settlement_tag", joinColumns=
+            {@JoinColumn(name="settlement_id")}, inverseJoinColumns=
+            {@JoinColumn(name="tag_id")})
     private List<Tag> tags;
+
+    @Column(name = "value")
+    private Double value;
 }

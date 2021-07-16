@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.domain.Tag;
+import com.example.demo.exception.EntityAlreadyExistsException;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.repository.TagRepository;
 import com.example.demo.service.TagService;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,12 +24,17 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag getTag(Integer tagId) {
-        return tagRepository.getById(tagId);
+        return tagRepository.findById(tagId).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
     public Tag postTag(Tag tag) {
-        return tagRepository.save(tag);
+        Optional<Tag> exists = tagRepository.findByDescription(tag.getDescription());
+        if(exists.isPresent()){
+            throw new EntityAlreadyExistsException("Tag with this description already exists");
+        } else {
+            return tagRepository.save(tag);
+        }
     }
 
     @Override

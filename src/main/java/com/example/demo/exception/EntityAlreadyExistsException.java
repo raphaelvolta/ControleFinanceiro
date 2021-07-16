@@ -1,14 +1,14 @@
 package com.example.demo.exception;
 
-public class EntityNotFoundException extends RuntimeException{
+public class EntityAlreadyExistsException extends RuntimeException{
 
     String message = "";
 
-    public EntityNotFoundException(){
+    public EntityAlreadyExistsException(){
         super();
     }
 
-    public EntityNotFoundException(String message){
+    public EntityAlreadyExistsException(String message){
         this.message = message;
     }
 
