@@ -31,8 +31,8 @@ public class RuleController {
 
     @PostMapping
     public ResponseEntity<Rule> postRule(
-            @RequestBody RuleDto rule){
-        return ResponseEntity.ok(ruleService.postRule(rule.toDomain()));
+            @RequestBody RuleDto ruleDto){
+        return ResponseEntity.ok(ruleService.postRule(ruleDto.toDomain()));
     }
 
     @DeleteMapping("/{ruleId}")
@@ -56,14 +56,14 @@ public class RuleController {
         return ResponseEntity.ok(ruleService.removeTagFromRule(ruleId, tagId));
     }
 
-    @PostMapping("/{ruleId}/tags/{filterId}")
+    @PostMapping("/{ruleId}/filters/{filterId}")
     public ResponseEntity<Rule> addFilterToRule(
             @PathVariable("ruleId") Integer ruleId,
             @PathVariable("filterId") Integer filterId){
         return ResponseEntity.ok(ruleService.addFilterToRule(ruleId, filterId));
     }
 
-    @DeleteMapping("/{ruleId}/tags/{filterId}")
+    @DeleteMapping("/{ruleId}/filters/{filterId}")
     public ResponseEntity<Rule> removeFilterFromRule(
             @PathVariable("ruleId") Integer ruleId,
             @PathVariable("filterId") Integer filterId) {

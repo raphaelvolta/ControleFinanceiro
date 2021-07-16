@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -37,10 +38,14 @@ public class RuleServiceImpl implements RuleService {
     public Rule postRule(Rule rule) {
         Tag tag = null;
         Filter filter = null;
-
         try{
-            tag = tagService.getTag(rule.getTag().getTagId());
-            filter = filterService.getFilter(rule.getFilter().getFilterId());
+            if(!Objects.isNull(rule.getTag().getTagId())) {
+                tag = tagService.getTag(rule.getTag().getTagId());
+            }
+
+            if(!Objects.isNull(rule.getFilter().getFilterId())) {
+                filter = filterService.getFilter(rule.getFilter().getFilterId());
+            }
         } catch(EntityNotFoundException e){
             throw new IdNotFoundException();
         }
@@ -58,7 +63,8 @@ public class RuleServiceImpl implements RuleService {
 
     @Override
     public Rule addTagToRule(Integer ruleId, Integer tagId) {
-        return null;
+        Rule rule = ruleRepository.findById(ruleId).orElseThrow(EntityNotFoundException::new);
+        return rule;
     }
 
     @Override
