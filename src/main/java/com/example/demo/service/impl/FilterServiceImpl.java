@@ -23,7 +23,7 @@ public class FilterServiceImpl implements FilterService {
 
     @Override
     public Filter getFilter(Integer filterId) {
-        return filterRepository.findById(filterId).orElseThrow(EntityNotFoundException::new);
+        return filterRepository.findById(filterId).orElseThrow(() -> new EntityNotFoundException("Filter {0} not found.", filterId));
     }
 
     @Override
@@ -34,14 +34,14 @@ public class FilterServiceImpl implements FilterService {
 
     @Override
     public Filter putFilter(Filter filter, Integer filterId) {
-        filterRepository.findById(filterId).orElseThrow(EntityNotFoundException::new);
+        getFilter(filterId);
         filter.setFilterId(filterId);
         return filterRepository.save(filter);
     }
 
     @Override
     public void deleteFilter(Integer filterId) {
-        Filter filter = filterRepository.findById(filterId).orElseThrow(EntityNotFoundException::new);
+        Filter filter = getFilter(filterId);
         filterRepository.delete(filter);
     }
 }

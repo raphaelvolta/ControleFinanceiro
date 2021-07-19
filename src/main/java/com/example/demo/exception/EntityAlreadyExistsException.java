@@ -12,6 +12,10 @@ public class EntityAlreadyExistsException extends RuntimeException{
         this.message = message;
     }
 
+    public EntityAlreadyExistsException(String message, Object... parameters){
+        this.message = String.format(message, parameters);
+    }
+
     public String getMessage(){
         return this.message;
     }

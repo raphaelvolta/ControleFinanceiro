@@ -22,6 +22,7 @@ public class Filter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer filterId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private FilterType type;
 

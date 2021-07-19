@@ -4,7 +4,6 @@ import com.example.demo.domain.Filter;
 import com.example.demo.domain.Rule;
 import com.example.demo.domain.Tag;
 import com.example.demo.exception.EntityNotFoundException;
-import com.example.demo.exception.IdNotFoundException;
 import com.example.demo.repository.RuleRepository;
 import com.example.demo.service.FilterService;
 import com.example.demo.service.RuleService;
@@ -13,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -31,56 +29,53 @@ public class RuleServiceImpl implements RuleService {
 
     @Override
     public Rule getRule(Integer ruleId) {
-        return ruleRepository.findById(ruleId).orElseThrow(EntityNotFoundException::new);
+        return ruleRepository.findById(ruleId).orElseThrow(() -> new EntityNotFoundException("Rule {0} not found.", ruleId));
     }
 
     @Override
     public Rule postRule(Rule rule) {
-        Tag tag = null;
-        Filter filter = null;
-        try{
-            if(!Objects.isNull(rule.getTag().getTagId())) {
-                tag = tagService.getTag(rule.getTag().getTagId());
-            }
-
-            if(!Objects.isNull(rule.getFilter().getFilterId())) {
-                filter = filterService.getFilter(rule.getFilter().getFilterId());
-            }
-        } catch(EntityNotFoundException e){
-            throw new IdNotFoundException();
-        }
-
-        rule.setFilter(filter);
-        rule.setTag(tag);
         return ruleRepository.save(rule);
     }
 
     @Override
     public void deleteRule(Integer ruleId) {
-        Rule rule =  ruleRepository.findById(ruleId).orElseThrow(EntityNotFoundException::new);
-        ruleRepository.delete(rule);
+        ruleRepository.delete(getRule(ruleId));
     }
 
     @Override
     public Rule addTagToRule(Integer ruleId, Integer tagId) {
-        Rule rule = ruleRepository.findById(ruleId).orElseThrow(EntityNotFoundException::new);
+        Rule rule = getRule(ruleId);
+        Tag tag = tagService.getTag(tagId);
+        if(!rule.getTag().contains(tag)){
+            rule.getTag().add(tag);
+            rule = ruleRepository.save(rule);
+        }
         return rule;
     }
 
     @Override
     public Rule removeTagFromRule(Integer ruleId, Integer tagId) {
-        return null;
+        Rule rule = getRule(ruleId);
+        rule.getTag().remove(tagService.getTag(tagId));
+        return ruleRepository.save(rule);
     }
 
     @Override
     public Rule addFilterToRule(Integer ruleId, Integer filterId) {
-        return null;
+        Rule rule = getRule(ruleId);
+        Filter filter = filterService.getFilter(filterId);
+        if(!rule.getFilter().contains(filter)){
+            rule.getFilter().add(filter);
+            rule = ruleRepository.save(rule);
+        }
+        return rule;
     }
 
     @Override
     public Rule removeFilterFromRule(Integer ruleId, Integer filterId) {
-        return null;
+        Rule rule = getRule(ruleId);
+        Filter filter = filterService.getFilter(filterId);
+        rule.getFilter().remove(filter);
+        return ruleRepository.save(rule);
     }
-
-
 }

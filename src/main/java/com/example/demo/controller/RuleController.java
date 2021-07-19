@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.Rule;
 import com.example.demo.jsonDto.RuleDto;
-import com.example.demo.jsonDto.TagDto;
 import com.example.demo.service.RuleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,9 +29,8 @@ public class RuleController {
     }
 
     @PostMapping
-    public ResponseEntity<Rule> postRule(
-            @RequestBody RuleDto ruleDto){
-        return ResponseEntity.ok(ruleService.postRule(ruleDto.toDomain()));
+    public ResponseEntity<Rule> postRule(){
+        return ResponseEntity.ok(ruleService.postRule(new RuleDto().toDomain()));
     }
 
     @DeleteMapping("/{ruleId}")

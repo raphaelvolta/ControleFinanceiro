@@ -23,11 +23,15 @@ public class Rule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ruleId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "filter_id", referencedColumnName = "filter_id")
+    @ManyToMany
+    @JoinTable(name="rule_filter", joinColumns=
+            {@JoinColumn(name="rule_id")}, inverseJoinColumns=
+            {@JoinColumn(name="filter_id")})
     private List<Filter> filter;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tag_id", referencedColumnName = "tag_id")
+    @ManyToMany
+    @JoinTable(name="rule_tag", joinColumns=
+            {@JoinColumn(name="rule_id")}, inverseJoinColumns=
+            {@JoinColumn(name="tag_id")})
     private List<Tag> tag;
 }
