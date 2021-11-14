@@ -2,10 +2,14 @@ package com.example.demo.service.impl;
 
 import com.example.demo.domain.Tag;
 import com.example.demo.exception.EntityAlreadyExistsException;
+import com.example.demo.exception.EntityBeingUsedException;
 import com.example.demo.exception.EntityNotFoundException;
+import static com.example.demo.exception.Messages.INFO_BEING_USED;
+import static com.example.demo.exception.Messages.TAG_ALREADY_EXISTS;
 import com.example.demo.repository.TagRepository;
 import com.example.demo.service.TagService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +35,7 @@ public class TagServiceImpl implements TagService {
     public Tag postTag(Tag tag) {
         Optional<Tag> exists = tagRepository.findByDescription(tag.getDescription());
         if(exists.isPresent()){
-            throw new EntityAlreadyExistsException("Tag with this description already exists");
+            throw new EntityAlreadyExistsException(TAG_ALREADY_EXISTS);
         } else {
             return tagRepository.save(tag);
         }
@@ -39,14 +43,18 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag putTag(Tag tag, Integer tagId) {
-        tagRepository.findById(tagId).orElseThrow(EntityNotFoundException::new);
+        getTag(tagId);
         tag.setTagId(tagId);
         return tagRepository.save(tag);
     }
 
     @Override
     public void deleteTag(Integer tagId) {
-        Tag tag = tagRepository.findById(tagId).orElseThrow(EntityNotFoundException::new);
-        tagRepository.delete(tag);
+        Tag tag = getTag(tagId);
+        try {
+            tagRepository.delete(tag);
+        } catch (DataIntegrityViolationException e){
+            throw new EntityBeingUsedException(INFO_BEING_USED);
+        }
     }
 }

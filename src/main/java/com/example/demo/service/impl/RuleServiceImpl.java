@@ -3,12 +3,14 @@ package com.example.demo.service.impl;
 import com.example.demo.domain.Filter;
 import com.example.demo.domain.Rule;
 import com.example.demo.domain.Tag;
+import com.example.demo.exception.EntityBeingUsedException;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.repository.RuleRepository;
 import com.example.demo.service.FilterService;
 import com.example.demo.service.RuleService;
 import com.example.demo.service.TagService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,12 +36,18 @@ public class RuleServiceImpl implements RuleService {
 
     @Override
     public Rule postRule(Rule rule) {
+        //TODO - test what happens if save same rule for same tag
         return ruleRepository.save(rule);
     }
 
     @Override
     public void deleteRule(Integer ruleId) {
-        ruleRepository.delete(getRule(ruleId));
+        Rule rule = getRule(ruleId);
+        try{
+            ruleRepository.delete(rule);
+        } catch (DataIntegrityViolationException e){
+            throw new EntityBeingUsedException("Information is being used by another registry");
+        }
     }
 
     @Override

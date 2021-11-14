@@ -1,10 +1,12 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.domain.Settlement;
+import com.example.demo.exception.EntityBeingUsedException;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.repository.SettlementRepository;
 import com.example.demo.service.SettlementService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +29,8 @@ public class SettlementServiceImpl implements SettlementService {
 
     @Override
     public Settlement postSettlement(Settlement settlement) {
+
+        //TODO - Validate if does not exist same Description/Value/Datetime settlement
         return settlementRepository.save(settlement);
     }
 
@@ -39,7 +43,11 @@ public class SettlementServiceImpl implements SettlementService {
 
     @Override
     public void deleteSettlement(Integer settlementId) {
-        Settlement settlement = settlementRepository.findById(settlementId).orElseThrow(EntityNotFoundException::new);
-        settlementRepository.delete(settlement);
+        Settlement settlement = getSettlement(settlementId);
+        try{
+            settlementRepository.delete(settlement);
+        } catch (DataIntegrityViolationException e){
+            throw new EntityBeingUsedException("Information is being used by another registry");
+        }
     }
 }

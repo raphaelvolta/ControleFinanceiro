@@ -1,6 +1,7 @@
 package com.example.demo.interceptor;
 
 import com.example.demo.exception.EntityAlreadyExistsException;
+import com.example.demo.exception.EntityBeingUsedException;
 import com.example.demo.exception.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +25,8 @@ public class ExceptionHandlerInterceptor {
     Map<HttpStatus, String> exceptionMap = Stream.of(new Object[][] {
             { NOT_FOUND, "Entity not found." },
             { UNPROCESSABLE_ENTITY, "Unprocessable entity" },
-            { INTERNAL_SERVER_ERROR, "Server error." }
+            { INTERNAL_SERVER_ERROR, "Server error." },
+            { BAD_REQUEST, "Bad request" }
     }).collect(Collectors.toMap(data -> (HttpStatus) data[0], data -> (String) data[1]));
 
 
@@ -38,6 +40,12 @@ public class ExceptionHandlerInterceptor {
     public ResponseEntity<JsonError> handleGeneralException(EntityAlreadyExistsException e) {
         log.info(e.getClass().getName());
         return new ResponseEntity<>(exceptionBody(UNPROCESSABLE_ENTITY, e), UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(EntityBeingUsedException.class)
+    public ResponseEntity<JsonError> handleGeneralException(EntityBeingUsedException e) {
+        log.info(e.getClass().getName());
+        return new ResponseEntity<>(exceptionBody(BAD_REQUEST, e), BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)

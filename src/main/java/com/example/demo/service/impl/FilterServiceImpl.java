@@ -1,10 +1,12 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.domain.Filter;
+import com.example.demo.exception.EntityBeingUsedException;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.repository.FilterRepository;
 import com.example.demo.service.FilterService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,6 +44,10 @@ public class FilterServiceImpl implements FilterService {
     @Override
     public void deleteFilter(Integer filterId) {
         Filter filter = getFilter(filterId);
-        filterRepository.delete(filter);
+        try {
+            filterRepository.delete(filter);
+        } catch (DataIntegrityViolationException e){
+            throw new EntityBeingUsedException("Information is being used by another registry");
+        }
     }
 }
