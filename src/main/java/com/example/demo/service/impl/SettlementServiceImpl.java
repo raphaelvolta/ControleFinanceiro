@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.example.demo.exception.Messages.INFO_BEING_USED;
+
 @Service
 @RequiredArgsConstructor
 public class SettlementServiceImpl implements SettlementService {
@@ -47,7 +49,7 @@ public class SettlementServiceImpl implements SettlementService {
         try{
             settlementRepository.delete(settlement);
         } catch (DataIntegrityViolationException e){
-            throw new EntityBeingUsedException("Information is being used by another registry");
+            throw new EntityBeingUsedException(INFO_BEING_USED);
         }
     }
 }

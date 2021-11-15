@@ -51,10 +51,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public void deleteTag(Integer tagId) {
         Tag tag = getTag(tagId);
-        try {
-            tagRepository.delete(tag);
-        } catch (DataIntegrityViolationException e){
-            throw new EntityBeingUsedException(INFO_BEING_USED);
-        }
+        tag.disable();
+        tagRepository.save(tag);
     }
 }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,6 +17,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Table(name = "tag")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Where(clause = "active=true")
 public class Tag implements Serializable {
 
     @Id
@@ -29,4 +31,10 @@ public class Tag implements Serializable {
     @Column(name = "icon")
     private String icon;
 
+    @Column(name = "active")
+    private boolean active;
+
+    public void disable(){
+        this.active = false;
+    }
 }

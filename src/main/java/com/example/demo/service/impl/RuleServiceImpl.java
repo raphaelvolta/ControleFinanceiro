@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.example.demo.exception.Messages.INFO_BEING_USED;
+import static com.example.demo.exception.Messages.RULE_NOT_FOUND;
+
 @Service
 @RequiredArgsConstructor
 public class RuleServiceImpl implements RuleService {
@@ -31,7 +34,7 @@ public class RuleServiceImpl implements RuleService {
 
     @Override
     public Rule getRule(Integer ruleId) {
-        return ruleRepository.findById(ruleId).orElseThrow(() -> new EntityNotFoundException("Rule {0} not found.", ruleId));
+        return ruleRepository.findById(ruleId).orElseThrow(() -> new EntityNotFoundException(RULE_NOT_FOUND, ruleId));
     }
 
     @Override
@@ -46,7 +49,7 @@ public class RuleServiceImpl implements RuleService {
         try{
             ruleRepository.delete(rule);
         } catch (DataIntegrityViolationException e){
-            throw new EntityBeingUsedException("Information is being used by another registry");
+            throw new EntityBeingUsedException(INFO_BEING_USED);
         }
     }
 

@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.demo.exception.Messages.FILTER_NOT_FOUND;
+import static com.example.demo.exception.Messages.INFO_BEING_USED;
+
 @Service
 @RequiredArgsConstructor
 public class FilterServiceImpl implements FilterService {
@@ -25,7 +28,7 @@ public class FilterServiceImpl implements FilterService {
 
     @Override
     public Filter getFilter(Integer filterId) {
-        return filterRepository.findById(filterId).orElseThrow(() -> new EntityNotFoundException("Filter {0} not found.", filterId));
+        return filterRepository.findById(filterId).orElseThrow(() -> new EntityNotFoundException(FILTER_NOT_FOUND, filterId));
     }
 
     @Override
@@ -47,7 +50,7 @@ public class FilterServiceImpl implements FilterService {
         try {
             filterRepository.delete(filter);
         } catch (DataIntegrityViolationException e){
-            throw new EntityBeingUsedException("Information is being used by another registry");
+            throw new EntityBeingUsedException(INFO_BEING_USED);
         }
     }
 }

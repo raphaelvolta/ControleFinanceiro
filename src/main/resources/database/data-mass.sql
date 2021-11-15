@@ -3,6 +3,7 @@ create table tag (
     tag_id int(10) not null auto_increment,
     description varchar(255),
     icon varchar(255),
+     active bit default true,
     primary key (tag_id)
 );
 insert into tag(tag_id, description, icon) values (1, 'Farmacia', 'icon1');
