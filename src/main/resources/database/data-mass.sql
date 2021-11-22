@@ -81,3 +81,12 @@ insert into rule_tag(rule_id, tag_id) values (1, 1);
 insert into rule_tag(rule_id, tag_id) values (1, 2);
 insert into rule_tag(rule_id, tag_id) values (2, 3);
 insert into rule_tag(rule_id, tag_id) values (2, 4);
+
+create table user (
+id bigint not null auto_increment,
+name varchar(255),
+primary key (id)
+);
+
+insert into user(id, name) values (1,  "Raphinha");
+insert into user(id, name) values (2,  "Romário");

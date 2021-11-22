@@ -5,9 +5,9 @@ import com.example.demo.domain.User;
 import java.util.List;
 
 public interface ServiceUser {
-    User crUser(User usuario);
+    User crUser(User user);
     List<User> getUser();
-       void getUserForId(Long id);
-    User putUser(User usuario);
+    User getUserForId(Long id);
+    User putUser(User user, Long Id);
     void deleteUser(Long id);
 }
